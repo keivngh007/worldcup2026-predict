@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { teams } from '@/data/teams';
 import { venues } from '@/data/venues';
 import { generatePrediction } from '@/data/predictions';
-import { matchResults } from '@/data/results';
+import { useResultsStore } from '@/store/resultsStore';
 import { type Match } from '@/data/matches';
 import TeamBadge from './TeamBadge';
 import { formatMatchTime, getGroupName, formatPercent } from '@/utils/format';
@@ -18,6 +18,7 @@ export default function MatchCard({ match, onClick }: MatchCardProps) {
   const home = teams.find((t) => t.id === match.homeTeamId);
   const away = teams.find((t) => t.id === match.awayTeamId);
   const venue = venues.find((v) => v.id === match.venueId);
+  const matchResults = useResultsStore((s) => s.results);
   const result = matchResults[match.id];
 
   const handleClick = onClick || (() => navigate(`/match/${match.id}`));

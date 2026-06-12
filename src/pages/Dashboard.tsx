@@ -2,7 +2,8 @@ import { teams } from '@/data/teams';
 import { matches } from '@/data/matches';
 import { venues } from '@/data/venues';
 import { generatePrediction } from '@/data/predictions';
-import { matchResults, comparePrediction, calculateAccuracy } from '@/data/results';
+import { comparePrediction, calculateAccuracy } from '@/data/results';
+import { useResultsStore } from '@/store/resultsStore';
 import TeamBadge from '@/components/TeamBadge';
 import BottomNav from '@/components/BottomNav';
 import { formatPercent } from '@/utils/format';
@@ -64,6 +65,7 @@ export default function Dashboard() {
   const topScorers = getTopScorers();
 
   // Calculate prediction accuracy from completed matches
+  const matchResults = useResultsStore((s) => s.results);
   const completedComparisons = Object.entries(matchResults)
     .filter(([, r]) => r.status === 'completed')
     .map(([matchId, result]) => {

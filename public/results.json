@@ -1,0 +1,52 @@
+{
+  "A1": {
+    "matchId": "A1",
+    "homeScore": 2,
+    "awayScore": 0,
+    "status": "completed",
+    "scorers": [
+      {
+        "name": "Julián Quiñones",
+        "teamId": "mex",
+        "minute": 9
+      },
+      {
+        "name": "Raúl Jiménez",
+        "teamId": "mex",
+        "minute": 67
+      }
+    ],
+    "cards": [
+      {
+        "name": "Yaya Sithole",
+        "teamId": "rsa",
+        "minute": 50,
+        "type": "red"
+      },
+      {
+        "name": "Themba Zwane",
+        "teamId": "rsa",
+        "minute": 84,
+        "type": "red"
+      },
+      {
+        "name": "César Montes",
+        "teamId": "mex",
+        "minute": 92,
+        "type": "red"
+      }
+    ],
+    "possession": [
+      58,
+      42
+    ],
+    "shots": [
+      14,
+      5
+    ],
+    "corners": [
+      6,
+      2
+    ]
+  }
+}

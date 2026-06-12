@@ -1,0 +1,38 @@
+name: Update Live Match Data
+
+on:
+  schedule:
+    - cron: '*/30 * * * *'   # 每30分钟
+  workflow_dispatch:          # 手动触发
+
+permissions:
+  contents: write
+
+jobs:
+  update-data:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Update results
+        run: node scripts/update-results.cjs
+        env:
+          FOOTBALL_DATA_API_KEY: ${{ secrets.FOOTBALL_DATA_API_KEY }}
+
+      - name: Commit & push if changed
+        run: |
+          git config user.name "data-bot"
+          git config user.email "bot@worldcup-predict.app"
+          git add public/results.json
+          if git diff --staged --quiet; then
+            echo "No changes"
+          else
+            git commit -m "data: auto-update match results [skip ci]"
+            git push
+          fi

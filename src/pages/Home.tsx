@@ -1,24 +1,12 @@
 import { matches } from '@/data/matches';
 import { teams } from '@/data/teams';
-import { matchResults } from '@/data/results';
+import { useResultsStore } from '@/store/resultsStore';
 import CountdownTimer from '@/components/CountdownTimer';
 import MatchCard from '@/components/MatchCard';
 import TeamBadge from '@/components/TeamBadge';
 import BottomNav from '@/components/BottomNav';
 import { Users, Calendar, MapPin, ChevronRight, Shield, Swords } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-
-// Find the next upcoming match (not completed)
-const now = Date.now();
-const nextMatch = matches
-  .filter((m) => m.homeTeamId !== 'TBD' && !matchResults[m.id])
-  .sort((a, b) => new Date(a.datetime).getTime() - new Date(b.datetime).getTime())
-  .find((m) => new Date(m.datetime).getTime() > now);
-
-const nextMatchTime = nextMatch?.datetime || '2026-06-11T13:00:00-06:00';
-const nextMatchLabel = nextMatch
-  ? `距离 ${nextMatch.id} 开赛`
-  : '距离开幕';
 
 const groupMatches = matches.filter((m) => m.stage === 'group');
 const focusMatches = groupMatches.slice(0, 4);
@@ -27,6 +15,19 @@ const hostTeams = teams.filter((t) => ['mex', 'can', 'usa'].includes(t.id));
 
 export default function Home() {
   const navigate = useNavigate();
+  const matchResults = useResultsStore((s) => s.results);
+
+  // Find the next upcoming match (not completed)
+  const now = Date.now();
+  const nextMatch = matches
+    .filter((m) => m.homeTeamId !== 'TBD' && !matchResults[m.id])
+    .sort((a, b) => new Date(a.datetime).getTime() - new Date(b.datetime).getTime())
+    .find((m) => new Date(m.datetime).getTime() > now);
+
+  const nextMatchTime = nextMatch?.datetime || '2026-06-11T13:00:00-06:00';
+  const nextMatchLabel = nextMatch
+    ? `距离 ${nextMatch.id} 开赛`
+    : '距离开幕';
 
   return (
     <div className="min-h-screen bg-surface pb-20">

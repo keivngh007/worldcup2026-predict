@@ -1,6 +1,7 @@
-import { lazy, Suspense } from 'react';
+import { lazy, Suspense, useEffect } from 'react';
 import { HashRouter as Router, Routes, Route } from 'react-router-dom';
 import ErrorBoundary from '@/components/ErrorBoundary';
+import { useResultsStore } from '@/store/resultsStore';
 
 // Route-level code splitting with lazy loading
 const Home = lazy(() => import('@/pages/Home'));
@@ -23,6 +24,12 @@ function PageLoader() {
 }
 
 export default function App() {
+  const loadLiveData = useResultsStore((s) => s.loadLiveData);
+
+  useEffect(() => {
+    loadLiveData();
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
   return (
     <ErrorBoundary>
       <Router>

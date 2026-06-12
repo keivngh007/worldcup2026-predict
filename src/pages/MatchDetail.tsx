@@ -4,7 +4,8 @@ import { teams } from '@/data/teams';
 import { venues } from '@/data/venues';
 import { squads } from '@/data/players';
 import { generatePrediction } from '@/data/predictions';
-import { matchResults, comparePrediction } from '@/data/results';
+import { comparePrediction } from '@/data/results';
+import { useResultsStore } from '@/store/resultsStore';
 import TeamBadge from '@/components/TeamBadge';
 import BottomNav from '@/components/BottomNav';
 import { formatMatchTime, formatPercent, getGroupName } from '@/utils/format';
@@ -28,6 +29,7 @@ function getStatusColor(status: string) {
 
 export default function MatchDetail() {
   const { id } = useParams<{ id: string }>();
+  const matchResults = useResultsStore((s) => s.results);
   const match = matches.find((m) => m.id === id);
   if (!match) return <div className="min-h-screen bg-surface flex items-center justify-center text-white/30">未找到比赛</div>;
 
